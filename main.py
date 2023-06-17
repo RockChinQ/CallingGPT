@@ -30,6 +30,7 @@ def main():
     for module_name in sys.argv[1:]:
         try:
             # delete the .py suffix
+            module_name = module_name.replace("/", ".").replace("\\", ".")
             if module_name.endswith('.py'):
                 module_name = module_name[:-3]
             # module = __import__(module_name)
