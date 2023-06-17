@@ -1,5 +1,7 @@
 # CallingGPT
 
+[![PyPi](https://img.shields.io/pypi/v/CallingGPT.svg)](https://pypi.python.org/pypi/CallingGPT)
+
 GPT's Function Calling - the proof-of-concept.  
 
 > Read this guide before you start: [function-calling](https://platform.openai.com/docs/guides/gpt/function-calling)
@@ -76,7 +78,9 @@ func<examples.greet.greet>: Hello, Alice!
         Returns:
             The result of the function.
         """
-        # Google style docstring is REQUIRED, it will be split into `description` and `params`(required if there are args) and `returns`(optional), `\n\n` between each part.
+        # Google style docstring is REQUIRED, it will be split into
+        # `description` and `params`(required if there are args) and 
+        # `returns`(optional), `\n\n` between each part.
         return "func_a: " + prompt
     ```
 
