@@ -50,7 +50,7 @@ class Namespace:
             # ignore private functions
             functions = {k: v for k, v in functions.items() if not k.startswith('_')}
 
-            self.functions[module.__name__] = {}
+            self.functions[module.__name__.replace(".","-")] = {}
 
             for name, function in functions.items():
                 
@@ -104,7 +104,7 @@ class Namespace:
                     "parameters": parameters,
                 }
 
-                self.functions[module.__name__][name] = funtion_dict
+                self.functions[module.__name__.replace(".","-")][name] = funtion_dict
 
     def __init__(self, modules: list):
         self.modules = modules

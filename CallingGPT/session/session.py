@@ -76,7 +76,9 @@ class Session:
         result = {}
 
         # split the function name
-        module_name, function_name = function_name.split('-')
+        fn_spt = function_name.split('-')
+        module_name = '-'.join(fn_spt[:-1])
+        function_name = fn_spt[-1]
 
         # get the function
         function = self.namespace.functions[module_name][function_name]['function']

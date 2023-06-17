@@ -4,6 +4,7 @@ import logging
 import yaml
 import shutil
 import openai
+import importlib
 
 from CallingGPT.cli import cli_loop
 
@@ -31,7 +32,9 @@ def main():
             # delete the .py suffix
             if module_name.endswith('.py'):
                 module_name = module_name[:-3]
-            module = __import__(module_name)
+            # module = __import__(module_name)
+            module = importlib.import_module(module_name)
+            print("Using module: {}".format(module.__name__))
             modules.append(module)
         except Exception as e:
             logging.error("Failed to import module {}.".format(module_name))

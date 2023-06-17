@@ -1,4 +1,5 @@
 import logging
+import json
 
 from ..session.session import Session
 
@@ -13,6 +14,9 @@ def cli_loop(modules: list):
         if cmd == "help":
             print("help: print this message")
             print("exit: exit the program")
+            print("lsf: list all functions")
+        elif cmd == "lsf":
+            print(json.dumps(session.namespace.functions_list, indent=4))
         else:
             resp = session.ask(cmd)
 
