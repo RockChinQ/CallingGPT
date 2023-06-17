@@ -81,13 +81,18 @@ class Namespace:
 
                 params = enumerate(inspect.signature(function).parameters.values())
                 parameters = {
+                    "type": "object",
                     "required": [],
+                    "properties": {},
                 }
 
 
                 for i, param in params:
-                    parameters[param.name] = {
-                        "type": param.annotation.__name__,
+                    param_type = param.annotation.__name__
+                    if param_type == "str":
+                        param_type = "string"
+                    parameters['properties'][param.name] = {
+                        "type": param_type,
                         "description": args_doc[param.name],
                     }
                     if param.default is inspect.Parameter.empty:
@@ -104,3 +109,15 @@ class Namespace:
     def __init__(self, modules: list):
         self.modules = modules
         self._retrieve_functions()
+
+    @property
+    def functions_list(self):
+        result: list = []
+        for module_name, module in self.functions.items():
+            for function_name, function in module.items():
+                func = function.copy()
+                func["name"] = "{}-{}".format(module_name, function_name)
+                del func["function"]
+                result.append(func)
+
+        return result
