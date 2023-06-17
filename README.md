@@ -53,3 +53,60 @@ func<examples.greet.greet>: Hello, Rock!
 func<examples.greet.greet>: Hello, Alice!
 >>> 
 ```
+
+## For Code
+
+1. Install the package
+
+    ```bash
+    pip install --upgrade CallingGPT
+    ```
+
+2. Create your own functions in modules(these modules can also be used in the CLI mode)
+
+    ```python
+    # your_module_a.py
+    def func_a(prompt: str) -> str:  # Type hint of EACH argument and return value is REQUIRED.
+        """
+        The description of this func a, will be provided to the api.
+
+        Args:
+            prompt(str): The prompt of the function.
+
+        Returns:
+            The result of the function.
+        """
+        # Google style docstring is REQUIRED, it will be split into `description` and `params`(required if there are args) and `returns`(optional), `\n\n` between each part.
+        return "func_a: " + prompt
+    ```
+
+    ```python
+    # your_module_b.py
+    def adder(a: int, b: int) -> int:
+        """
+        Add two numbers.
+
+        Args:
+            a: The first number.
+            b: The second number.
+
+        Returns:
+            The sum of a and b.
+        """
+        # Type hints of args in docstring is optional.
+        return a + b
+    ```
+
+3. Call the wrapper
+
+    ```python
+    from CallingGPT.session.session import Session
+
+    import your_module_a, your_module_b
+
+    session = Session([your_module_a, your_module_b])
+
+    session.ask("your prompt")
+    ```
+
+    `Session` will automatically manage context for you.
