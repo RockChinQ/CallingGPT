@@ -1,0 +1,4 @@
+# Change all Required fields
+openai:
+  # (Required) Fill your API key here
+  api_key: "YOUR_API_KEY"
