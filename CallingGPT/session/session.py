@@ -23,11 +23,18 @@ class Session:
                 "content": msg
             }
         )
+
+        args = {
+            "model": self.model,
+            "messages": self.messages,
+        }
+
+        if len(self.namespace.functions_list) > 0:
+            args['functions'] = self.namespace.functions_list
+            args['function_call'] = "auto"
+
         resp = openai.ChatCompletion.create(
-            model=self.model,
-            messages=self.messages,
-            functions=self.namespace.functions_list,
-            function_call="auto"
+            **args
         )
 
         logging.debug("Response: {}".format(resp))
@@ -51,6 +58,7 @@ class Session:
 
             ret = {
                 "type": "function_call",
+                "func": fc['name'].replace('-', '.'),
                 "value": call_ret,
             }
         else:

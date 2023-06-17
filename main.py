@@ -3,6 +3,12 @@ import sys
 import logging
 import yaml
 import shutil
+import openai
+
+from CallingGPT.cli import cli_loop
+
+
+logging.basicConfig(level=logging.INFO)
 
 
 def check_config():
@@ -12,7 +18,31 @@ def check_config():
         sys.exit(0)
 
 def main():
-    pass
+    # read openai.api_key from config.yaml
+    check_config()
+    cfg = yaml.load(open('config.yaml', 'r'), Loader=yaml.FullLoader)
+    openai.api_key = cfg['openai']['api_key']
+
+    # read modules from os.argv
+    modules = []
+
+    for module_name in sys.argv[1:]:
+        try:
+            # delete the .py suffix
+            if module_name.endswith('.py'):
+                module_name = module_name[:-3]
+            module = __import__(module_name)
+            modules.append(module)
+        except Exception as e:
+            logging.error("Failed to import module {}.".format(module_name))
+            logging.error(e)
+            sys.exit(1)
+
+    if len(modules) == 0:
+        logging.warning("No module imported. Please provide at least one module.")
+
+    cli_loop(modules)
+
 
 if __name__ == '__main__':
     main()
