@@ -106,6 +106,10 @@ func<examples.greet.greet>: Hello, Alice!
     ```python
     from CallingGPT.session.session import Session
 
+    import openai
+
+    openai.apikey = 'your_openai_api_key'
+
     import your_module_a, your_module_b
 
     session = Session([your_module_a, your_module_b])
