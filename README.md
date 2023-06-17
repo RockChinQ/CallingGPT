@@ -1,6 +1,8 @@
 # CallingGPT
 
-GPT's Function Calling - the proof-of-concept
+GPT's Function Calling - the proof-of-concept.  
+
+> Read this guide before you start: [function-calling](https://platform.openai.com/docs/guides/gpt/function-calling)
 
 ## Abstract
 
