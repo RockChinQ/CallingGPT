@@ -56,6 +56,8 @@ func<examples.greet.greet>: Hello, Alice!
 >>> 
 ```
 
+Type `help` to get help.
+
 ## For Code
 
 1. Install the package
