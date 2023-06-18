@@ -17,6 +17,8 @@ def cli_loop(modules: list):
             print("lsf: list all functions")
         elif cmd == "lsf":
             print(json.dumps(session.namespace.functions_list, indent=4))
+        elif cmd == "msg":
+            print(json.dumps(session.messages, indent=4))
         else:
             resp = session.ask(cmd)
 
