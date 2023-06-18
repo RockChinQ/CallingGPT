@@ -63,7 +63,7 @@ Type `help` to get help.
 <details>
 <summary>examples/draw.py</summary>
 
-Provides a `draw` function to use DALL·E model when user ask GPT to draw something.
+Provides a `dalle_draw` function to use DALL·E model when user ask GPT to draw something.
 
 ```bash
 python main.py examples/draw.py
