@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='CallingGPT',
-    version='0.0.0.2',
+    version='0.0.0.3',
     description="GPT's function calling feature wrapper",
     long_description=open('README.md', encoding="utf-8").read(),
     long_description_content_type="text/markdown",
