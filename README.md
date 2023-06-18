@@ -2,9 +2,9 @@
 
 [![PyPi](https://img.shields.io/pypi/v/CallingGPT.svg)](https://pypi.python.org/pypi/CallingGPT)
 
-GPT's Function Calling - the proof-of-concept.  
+GPT's Function Calling Demo, a experiment of self-hosted ChatGPT-Plugins-like platform.
 
-> Read this guide before you start: [function-calling](https://platform.openai.com/docs/guides/gpt/function-calling)
+> Recommend reading: [function-calling](https://platform.openai.com/docs/guides/gpt/function-calling)
 
 ## Abstract
 
