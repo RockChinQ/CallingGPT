@@ -51,7 +51,9 @@ class Session:
             args = json.loads(fc['arguments'])
             call_ret = self._call_function(fc['name'], args)
 
-            append_msg['content'] = "(Function: {} called, and returned: {})".format(
+            append_msg['role'] = 'system'
+
+            append_msg['content'] = "(Function {} called, returned: {})".format(
                 fc['name'],
                 call_ret
             )
@@ -87,3 +89,4 @@ class Session:
         result = function(**args)
 
         return result
+    

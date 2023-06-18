@@ -43,7 +43,7 @@ def main():
             sys.exit(1)
 
     if len(modules) == 0:
-        logging.warning("No module imported. Please provide at least one module.")
+        logging.warning("No module imported, you're in normal chat mode.")
 
     cli_loop(modules)
 
