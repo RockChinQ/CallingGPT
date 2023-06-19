@@ -19,18 +19,21 @@ class Namespace:
                 "function": function_a,
                 "description": "function_a description",
                 "parameters": {
-                    "parameter_a": {
-                        "type": "str",
-                        "description": "parameter_a description"
-                    },
-                    "parameter_b": {
-                        "type": "int",
-                        "description": "parameter_b description"
-                    },
-                    "parameter_c": {
-                        "type": "str",
-                        "description": "parameter_c description",
-                        "enum": ["a", "b", "c"]
+                    "type": "object",
+                    "properties": {
+                        "parameter_a": {
+                            "type": "str",
+                            "description": "parameter_a description"
+                        },
+                        "parameter_b": {
+                            "type": "int",
+                            "description": "parameter_b description"
+                        },
+                        "parameter_c": {
+                            "type": "str",
+                            "description": "parameter_c description",
+                            "enum": ["a", "b", "c"]
+                        },
                     },
                     "required": ["parameter_a", "parameter_b"]
                 }
@@ -39,6 +42,11 @@ class Namespace:
     }
 
     """
+
+    def _func_schema(self, function: callable) -> dict:
+        """
+        Return the data schema of a function.
+        """
 
     def _retrieve_functions(self):
         self.functions = {}
@@ -121,3 +129,10 @@ class Namespace:
                 result.append(func)
 
         return result
+    
+    def add_function(self, module_name: str, function: callable):
+        """
+        Add a function to namespace.
+        """
+        assert isinstance(function, type(self.add_function))
+        # self.functions[module_name][function.__name__] = function
