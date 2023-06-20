@@ -136,7 +136,6 @@ class Namespace:
                 funtion_dict = self._func_schema(function)
 
                 self.functions[module.__name__.replace(".","-")][name] = funtion_dict
-        print(self.functions)
 
     def __init__(self, modules: list):
         self.modules = modules
@@ -159,4 +158,11 @@ class Namespace:
         Add a function to namespace.
         """
         assert isinstance(function, type(self.add_function))
-        # self.functions[module_name][function.__name__] = function
+        self.functions[module_name][function.__name__] = self._func_schema(function)
+
+    def add_modules(self, modules: list):
+        """
+        Add a module to namespace.
+        """
+        self.modules.extend(modules)
+        self._retrieve_functions()
