@@ -3,7 +3,7 @@ name: Update Wiki
 on:
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - 'docs/wiki/**'
   push:
@@ -25,7 +25,7 @@ jobs:
     - name: Clone Wiki Repository
       uses: actions/checkout@v2
       with:
-        repository: RockChinQ/CallingGPT.wiki
+        repository: RockChinQ/CallingGPT.wiki.git
         path: wiki
     - name: Copy docs/wiki content to wiki
       run: |
