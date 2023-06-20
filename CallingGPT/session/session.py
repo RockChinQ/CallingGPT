@@ -51,7 +51,7 @@ class Session:
             self.messages.append({
                 "role": "function",
                 "name": fc['name'],
-                "content": call_ret
+                "content": str(call_ret)
             })
 
             ret = {
@@ -72,19 +72,6 @@ class Session:
 
         return ret
 
-    def _call_function(self, function_name: str, args: dict) -> dict:
-        result = {}
-
-        # split the function name
-        fn_spt = function_name.split('-')
-        module_name = '-'.join(fn_spt[:-1])
-        function_name = fn_spt[-1]
-
-        # get the function
-        function = self.namespace.functions[module_name][function_name]['function']
-
-        # call the function
-        result = function(**args)
-
-        return result
+    def _call_function(self, function_name: str, args: dict):
+        return self.namespace.call_function(function_name, args)
     
