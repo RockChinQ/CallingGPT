@@ -68,10 +68,9 @@ class Namespace:
                 # extract args
                 # delete the first line of args
                 arg_lines = args.split('\n')[1:]
-                arg_doc_list = re.findall(r'(\w+)(\((\w+)\))?:\s*(.*)', args)
                 args_doc = {}
                 for arg_line in arg_lines:
-                    doc_tuple = re.findall(r'(\w+)(\((\w+)\))?:\s*(.*)', arg_line)
+                    doc_tuple = re.findall(r'(\w+)(\(([\w\[\]]+)\))?:\s*(.*)', arg_line)
                     if len(doc_tuple) == 0:
                         continue
                     args_doc[doc_tuple[0][0]] = doc_tuple[0][3]
@@ -89,12 +88,42 @@ class Namespace:
 
                 for i, param in params:
                     param_type = param.annotation.__name__
-                    if param_type == "str":
-                        param_type = "string"
+
+                    type_name_mapping = {
+                        "str": "string",
+                        "int": "integer",
+                        "float": "number",
+                        "bool": "boolean",
+                        "list": "array",
+                        "dict": "object",
+                    }
+
+                    if param_type in type_name_mapping:
+                        param_type = type_name_mapping[param_type]
+
                     parameters['properties'][param.name] = {
                         "type": param_type,
                         "description": args_doc[param.name],
                     }
+
+                    # add schema for array
+                    if param_type == "array":
+                        # extract type of array, the int of list[int]
+                        # use re
+                        array_type_tuple = re.findall(r'list\[(\w+)\]', str(param.annotation))
+
+                        array_type = 'string'
+
+                        if len(array_type_tuple) > 0:
+                            array_type = array_type_tuple[0]
+                        
+                        if array_type in type_name_mapping:
+                            array_type = type_name_mapping[array_type]
+                        
+                        parameters['properties'][param.name]["items"] = {
+                            "type": array_type,
+                        }
+
                     if param.default is inspect.Parameter.empty:
                         parameters["required"].append(param.name)
 

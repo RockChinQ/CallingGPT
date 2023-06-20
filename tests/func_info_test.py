@@ -1,5 +1,5 @@
 # param_a: the first parameter
-def test_function(param_a: str, param_b: int, param_c: int = 1) -> str:
+def test_function(param_a: str, param_b: int, param_c: int, l: list) -> str:
     """
     Function for testing.
 
@@ -7,6 +7,7 @@ def test_function(param_a: str, param_b: int, param_c: int = 1) -> str:
         param_a(str): the first parameter
         param_b(int): the second parameter
         param_c(int): the third parameter
+        l(list[int]): the list parameter
 
     Returns:
         str: the return value
@@ -14,6 +15,7 @@ def test_function(param_a: str, param_b: int, param_c: int = 1) -> str:
 
     return "test_function"
 
+import re
 import inspect
 
 print(test_function.__annotations__)
@@ -25,7 +27,10 @@ print(inspect.signature(test_function).parameters.values())
 
 params = enumerate(inspect.signature(test_function).parameters.values())
 for i, param in params:
-    print(i, param.name, param.kind, param.default, param.annotation)
+    print(i, param.name, param.kind, param.default, param.annotation, param.annotation.__name__)
+    if param.annotation.__name__ == "list":
+        array_type = re.findall(r'list\[(\w+)\]', str(param.annotation))
+        print(array_type)
 
 print(inspect.Parameter.empty)
 
@@ -42,6 +47,6 @@ returns = doc_spt[2]
 
 print(desc)
 
-arg_doc_list = re.findall(r'(\w+)\((\w+)\):\s*(.*)', args)
+arg_doc_list = re.findall(r'(\w+)\(([\w\[\]]+)\):\s*(.*)', args)
 print(arg_doc_list)
 
