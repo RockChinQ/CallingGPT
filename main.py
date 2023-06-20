@@ -6,7 +6,7 @@ import shutil
 import openai
 import importlib
 
-from CallingGPT.cli import cli_loop
+from src.CallingGPT.cli import cli_loop
 
 
 logging.basicConfig(level=logging.INFO)
