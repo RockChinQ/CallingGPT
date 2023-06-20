@@ -138,7 +138,7 @@ func<examples.draw.dalle_draw>: {
     import your_module_a, your_module_b
     import openai
 
-    openai.apikey = 'your_openai_api_key'
+    openai.api_key = 'your_openai_api_key'
 
     session = Session([your_module_a, your_module_b])
 

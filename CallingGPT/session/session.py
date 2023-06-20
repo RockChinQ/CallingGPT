@@ -40,23 +40,19 @@ class Session:
         logging.debug("Response: {}".format(resp))
         reply_msg = resp["choices"][0]['message']
 
-        append_msg = {
-            "role": "assistant",
-        }
-
         ret = {}
 
         if 'function_call' in reply_msg:
+
             fc = reply_msg['function_call']
             args = json.loads(fc['arguments'])
             call_ret = self._call_function(fc['name'], args)
 
-            append_msg['role'] = 'system'
-
-            append_msg['content'] = "(Function {} called, returned: {})".format(
-                fc['name'],
-                call_ret
-            )
+            self.messages.append({
+                "role": "function",
+                "name": fc['name'],
+                "content": call_ret
+            })
 
             ret = {
                 "type": "function_call",
@@ -64,13 +60,15 @@ class Session:
                 "value": call_ret,
             }
         else:
-            append_msg['content'] = reply_msg['content']
             ret = {
                 "type": "message",
                 "value": reply_msg['content'],
             }
 
-        self.messages.append(append_msg)
+            self.messages.append({
+                "role": "assistant",
+                "content": reply_msg['content']
+            })
 
         return ret
 
