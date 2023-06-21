@@ -56,7 +56,8 @@ func<examples.greet.greet>: Hello, Alice!
 >>> 
 ```
 
-Type `help` to get help.
+Type `help` to get help.  
+See [wiki](https://github.com/RockChinQ/CallingGPT/wiki/1.-Function-Format) for the function format.
 
 ### Other Examples
 
@@ -146,3 +147,5 @@ func<examples.draw.dalle_draw>: {
     ```
 
     `Session` will automatically manage context for you.
+  
+See [wiki](https://github.com/RockChinQ/CallingGPT/wiki/1.-Function-Format) for the function format.
