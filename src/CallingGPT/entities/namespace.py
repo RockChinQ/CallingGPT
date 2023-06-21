@@ -157,9 +157,12 @@ class Namespace:
             # assert module is a module
             assert isinstance(module, type(sys))
             # ignore non-function attributes
-            functions = {k: v for k, v in module.__dict__.items() if callable(v)}
-            # ignore private functions
-            functions = {k: v for k, v in functions.items() if not k.startswith('_')}
+            if not hasattr(module, '__functions__'):
+                functions = {k: v for k, v in module.__dict__.items() if callable(v)}
+                # ignore private functions
+                functions = {k: v for k, v in functions.items() if not k.startswith('_')}
+            else:
+                functions = {v.__name__: v for v in module.__functions__ }
 
             self.functions[module.__name__.replace(".","-")] = {}
 
