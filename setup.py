@@ -2,7 +2,7 @@ from setuptools import setup, find_namespace_packages
 
 setup(
     name='CallingGPT',
-    version='0.0.0.7',
+    version='0.0.1.0',
     description="GPT's function calling feature wrapper",
     long_description=open('README.md', encoding="utf-8").read(),
     long_description_content_type="text/markdown",
@@ -14,7 +14,6 @@ setup(
     url="https://github.com/RockChinQ/CallingGPT",
     classifiers=[
         'Programming Language :: Python :: 3',
-        # Apache License 2.0
         'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
     ],
