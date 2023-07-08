@@ -45,6 +45,8 @@ class Session:
             logging.debug("Response: {}".format(resp))
             reply_msg = resp["choices"][0]['message']
 
+            yield reply_msg
+
             ret = {}
 
             if 'function_call' in reply_msg:
@@ -67,7 +69,6 @@ class Session:
                     "value": call_ret,
                 }
 
-                yield ret
             else:
                 ret = {
                     "type": "message",
@@ -81,7 +82,6 @@ class Session:
 
                 self.messages = messages.copy()
 
-                yield ret
                 break
 
     # def ask(self, msg: str) -> dict:
