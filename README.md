@@ -47,13 +47,19 @@ Then you can talk to the bot.
 ```
 $ python main.py examples/greet.py 
 Using module: examples.greet
->>> hello and who are you?              
-<<< Hello! I am an AI assistant here to help you. How may I assist you today?
+>>> Hello and who are you?
+<<< Hello! I am an AI assistant. How can I assist you today?
 >>> say hello to Rock
-func<examples.greet.greet>: Hello, Rock!
+call<examples-greet-greet>: {
+  "user": "Rock"
+}
+<<< Hello, Rock! How can I assist you today?
 >>> and to Alice
-func<examples.greet.greet>: Hello, Alice!
->>> 
+call<examples-greet-greet>: {
+  "user": "Alice"
+}
+<<< Hello, Alice! How can I assist you today?
+>>>
 ```
 
 Type `help` to get help.  
@@ -62,27 +68,29 @@ See [wiki](https://github.com/RockChinQ/CallingGPT/wiki/1.-Function-Format) for 
 ### Other Examples
 
 <details>
-<summary>examples/draw.py</summary>
+<summary>examples/draw_and_wrapper_md.py </summary>
 
 Provides a `dalle_draw` function to use DALL·E model when user ask GPT to draw something.
 
 ```bash
-python main.py examples/draw.py
+python main.py examples/draw_and_wrapper_md.py 
 ```
 
 ```
-$ python main.py examples/draw.py 
-Using module: examples.draw
->>> draw cars heading home under the sunset
-func<examples.draw.dalle_draw>: {
-  "created": 1687098971,
-  "data": [
-    {
-      "url": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-VS9HEpJba78GXVfOcmVo7qaM/user-OHa7Jo3kL4XJDg9lo7AzdWNT/img-eAwt4YgHn6ed1cr96MoRWs0d.png?st=2023-06-18T13%3A36%3A11Z&se=2023-06-18T15%3A36%3A11Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-06-17T20%3A54%3A10Z&ske=2023-06-18T20%3A54%3A10Z&sks=b&skv=2021-08-06&sig=ZY4DTE1fYPyT7/jYBLJLuAgxpNuPsOhjbid1CWTyfKo%3D"
-    }
-  ]
+$ python main.py examples/draw_and_wrapper_md.py 
+Using module: examples.draw_and_wrapper_md
+>>> hello!
+<<< Hi there! How can I assist you today?
+>>> draw a sunset for me please
+call<examples-draw_and_wrapper_md-draw>: {
+  "prompt": "sunset"
 }
->>>
+<<< Sure! Here's a beautiful sunset for you:
+
+![Sunset](https://oaidalleapiprodscus.blob.core.windows.net/private/org-VS9HEpJba78GXVfOcmVo7qaM/user-OHa7Jo3kL4XJDg9lo7AzdWNT/img-QmDUiwp1IGFcu8pDGZh0i7r8.png)
+
+I hope you like it! Let me know if there's anything else I can help you with.
+>>> 
 ```
 
 </details>
