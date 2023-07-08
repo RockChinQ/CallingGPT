@@ -151,7 +151,25 @@ I hope you like it! Let me know if there's anything else I can help you with.
 
     session = Session([your_module_a, your_module_b])
 
-    session.ask("your prompt")
+    for reply in session.ask("your prompt"):
+        # session.ask will yield each time the api returns a result,
+        # before calling function, it will print the function name and args.
+        # e.g. here's a function call:
+        # {
+        #   "role": "assistant",
+        #   "content": null,
+        #   "function_call": {
+        #     "name": "examples-draw_and_wrapper_md-draw",
+        #     "arguments": "{\n  \"prompt\": \"cat\"\n}"
+        #   }
+        # }
+        # 
+        # while here's a normal reply:
+        # {
+        #   "role": "assistant",
+        #   "content": "Hello, I am an AI assistant. How can I assist you today?"
+        # }
+        print(reply)
     ```
 
     `Session` will automatically manage context for you.
