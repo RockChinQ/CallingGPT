@@ -16,7 +16,7 @@ class Session:
         self.namespace = Namespace(modules)
         self.model = model
 
-    def ask_iter(self, msg: str) -> dict:
+    def ask(self, msg: str) -> dict:
         # copy messages
 
         messages = self.messages.copy()
@@ -84,61 +84,61 @@ class Session:
                 yield ret
                 break
 
-    def ask(self, msg: str) -> dict:
-        self.messages.append(
-            {
-                "role": "user",
-                "content": msg
-            }
-        )
+    # def ask(self, msg: str) -> dict:
+    #     self.messages.append(
+    #         {
+    #             "role": "user",
+    #             "content": msg
+    #         }
+    #     )
 
-        args = {
-            "model": self.model,
-            "messages": self.messages,
-        }
+    #     args = {
+    #         "model": self.model,
+    #         "messages": self.messages,
+    #     }
 
-        if len(self.namespace.functions_list) > 0:
-            args['functions'] = self.namespace.functions_list
-            args['function_call'] = "auto"
+    #     if len(self.namespace.functions_list) > 0:
+    #         args['functions'] = self.namespace.functions_list
+    #         args['function_call'] = "auto"
 
-        resp = openai.ChatCompletion.create(
-            **args
-        )
+    #     resp = openai.ChatCompletion.create(
+    #         **args
+    #     )
 
-        logging.debug("Response: {}".format(resp))
-        reply_msg = resp["choices"][0]['message']
+    #     logging.debug("Response: {}".format(resp))
+    #     reply_msg = resp["choices"][0]['message']
 
-        ret = {}
+    #     ret = {}
 
-        if 'function_call' in reply_msg:
+    #     if 'function_call' in reply_msg:
 
-            fc = reply_msg['function_call']
-            args = json.loads(fc['arguments'])
-            call_ret = self._call_function(fc['name'], args)
+    #         fc = reply_msg['function_call']
+    #         args = json.loads(fc['arguments'])
+    #         call_ret = self._call_function(fc['name'], args)
 
-            self.messages.append({
-                "role": "function",
-                "name": fc['name'],
-                "content": str(call_ret)
-            })
+    #         self.messages.append({
+    #             "role": "function",
+    #             "name": fc['name'],
+    #             "content": str(call_ret)
+    #         })
 
-            ret = {
-                "type": "function_call",
-                "func": fc['name'].replace('-', '.'),
-                "value": call_ret,
-            }
-        else:
-            ret = {
-                "type": "message",
-                "value": reply_msg['content'],
-            }
+    #         ret = {
+    #             "type": "function_call",
+    #             "func": fc['name'].replace('-', '.'),
+    #             "value": call_ret,
+    #         }
+    #     else:
+    #         ret = {
+    #             "type": "message",
+    #             "value": reply_msg['content'],
+    #         }
 
-            self.messages.append({
-                "role": "assistant",
-                "content": reply_msg['content']
-            })
+    #         self.messages.append({
+    #             "role": "assistant",
+    #             "content": reply_msg['content']
+    #         })
 
-        return ret
+    #     return ret
 
     def _call_function(self, function_name: str, args: dict):
         return self.namespace.call_function(function_name, args)
