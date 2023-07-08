@@ -1,21 +1,22 @@
 # CallingGPT
 
-English | [简体中文](README_cn.md)
+[English](README.md) | 简体中文
 
 [![PyPi](https://img.shields.io/pypi/v/CallingGPT.svg)](https://pypi.python.org/pypi/CallingGPT)
 
-GPT's Function Calling Demo, a experiment of self-hosted ChatGPT-Plugins-like platform.
+OpenAI GPT接口的函数调用功能演示，一个自托管的类ChatGPT Plugin平台的实验。
 
-> Recommend reading: [function-calling](https://platform.openai.com/docs/guides/gpt/function-calling)
+> 建议您先阅读: [function-calling](https://platform.openai.com/docs/guides/gpt/function-calling)
 
-## Abstract
+## 摘要
 
-OpenAI's GPT models provide a function calling feature, so we can easily create `ChatGPT-Plugins-like` tools. This repository is a proof-of-concept of the function calling feature.  
-In this experiment, we defined the `Plugin` as `Namespace` which contains a serial of functions. While user performing a conversation, the functions in `Namespace` will be called by the API and return the result to the user.
+OpenAI的GPT模型提供了函数调用功能，因此我们可以轻松地创建`类ChatGPT Plugin`的工具。本存储库是函数调用功能的概念验证以及基本封装。
 
-## Usage
+在这个实验中，我们将`Plugin`定义为包含一系列函数的`Namespace`。当用户进行对话时，API将调用`Namespace`中的函数，并将结果返回给用户。
 
-1. Clone this repository and install the dependencies.
+## 用法
+
+1. 克隆此存储库并安装依赖项。
 
     ```bash
     git clone https://github.com/RockChinQ/CallingGPT
@@ -23,28 +24,28 @@ In this experiment, we defined the `Plugin` as `Namespace` which contains a seri
     pip install -r requirements.txt
     ```
 
-2. Run the `main.py` to generate `config.yaml`
+2. 运行`main.py`以生成`config.yaml`
 
     ```bash
     python main.py
     ```
 
-3. Edit the `config.yaml` to set your API key and other settings.
-4. Run the `main.py` and pass your modules.
+3. 编辑`config.yaml`以设置您的`api_key`和其他设置。
+4. 运行`main.py`并传递您的模块。
 
     ```bash
     python main.py <module0> <module1> ...
     ```
 
-## Example
+## 示例
 
-Use the `example/greet.py`, provides a `greet` function called when user ask GPT to greet someone.
+使用`example/greet.py`，提供一个`greet`函数，当用户要求GPT向某人打招呼时调用。
 
 ```bash
 python main.py example/greet.py
 ```
 
-Then you can talk to the bot.
+然后您可以与机器人交谈。
 
 ```
 $ python main.py examples/greet.py 
@@ -64,15 +65,15 @@ call<examples-greet-greet>: {
 >>>
 ```
 
-Type `help` to get help.  
-See [wiki](https://github.com/RockChinQ/CallingGPT/wiki/1.-Function-Format) for the function format.
+输入`help`以获取帮助。  
+有关函数格式，请参见[wiki](https://github.com/RockChinQ/CallingGPT/wiki/1.-Function-Format)
 
-### Other Examples
+### 更多示例
 
 <details>
 <summary>examples/draw_and_wrapper_md.py </summary>
 
-Provides a `dalle_draw` function to use DALL·E model when user ask GPT to draw something.
+提供一个`dalle_draw`函数，当用户要求GPT画画时，使用DALL·E模型。
 
 ```bash
 python main.py examples/draw_and_wrapper_md.py 
@@ -97,19 +98,19 @@ I hope you like it! Let me know if there's anything else I can help you with.
 
 </details>
 
-## For Code
+## 代码调用
 
-1. Install the package
+1. 安装包
 
     ```bash
     pip install --upgrade CallingGPT
     ```
 
-2. Create your own functions in modules(these modules can also be used in the CLI mode)
+2. 编写模块（亦可用于CLI模式）
 
     ```python
     # your_module_a.py
-    def func_a(prompt: str) -> str:  # Type hint of EACH argument and return value is REQUIRED.
+    def func_a(prompt: str) -> str:  # 每个参数和函数返回值的类型提示是必需的
         """
         The description of this func a, will be provided to the api.
 
@@ -119,9 +120,7 @@ I hope you like it! Let me know if there's anything else I can help you with.
         Returns:
             The result of the function.
         """
-        # Google style docstring is REQUIRED, it will be split into
-        # `description` and `params`(required if there are args) and 
-        # `returns`(optional), `\n\n` between each part.
+        # 必须使用Google风格的docstring，它将被分割为`description`和`params`(如果有参数则必需)和`returns`(可选)，每个部分之间用`\n\n`分隔。
         return "func_a: " + prompt
     ```
 
@@ -138,11 +137,11 @@ I hope you like it! Let me know if there's anything else I can help you with.
         Returns:
             The sum of a and b.
         """
-        # Type hints of args in docstring is optional.
+        # docstring中的参数类型提示是可选的
         return a + b
     ```
 
-3. Call the wrapper
+3. 调用
 
     ```python
     from CallingGPT.session.session import Session
@@ -154,9 +153,9 @@ I hope you like it! Let me know if there's anything else I can help you with.
     session = Session([your_module_a, your_module_b])
 
     for reply in session.ask("your prompt"):
-        # session.ask will yield each time the api returns a result,
-        # before calling function, it will print the function name and args.
-        # e.g. here's a function call:
+        # session.ask将在api返回结果时每次产生一个返回值
+        # 在调用函数之前，它将打印函数名和参数。
+        # 例如，这是一个函数调用：
         # {
         #   "role": "assistant",
         #   "content": null,
@@ -165,8 +164,8 @@ I hope you like it! Let me know if there's anything else I can help you with.
         #     "arguments": "{\n  \"prompt\": \"cat\"\n}"
         #   }
         # }
-        # 
-        # while here's a normal reply:
+        #
+        # 而这是一个普通的回复：
         # {
         #   "role": "assistant",
         #   "content": "Hello, I am an AI assistant. How can I assist you today?"
@@ -174,6 +173,6 @@ I hope you like it! Let me know if there's anything else I can help you with.
         print(reply)
     ```
 
-    `Session` will automatically manage context for you.
-  
-See [wiki](https://github.com/RockChinQ/CallingGPT/wiki/1.-Function-Format) for the function format.
+    `Session`将自动为您管理上下文。
+
+查看[wiki](https://github.com/RockChinQ/CallingGPT/wiki/1.-Function-Format)以获取更多信息。
