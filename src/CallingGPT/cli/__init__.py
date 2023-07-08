@@ -41,18 +41,33 @@ def cli_loop(modules: list):
         else:
             resp = session.ask(cmd)
 
-            if resp['type'] == 'function_call':
-                print(
-                    "func<{}>: {}".format(
-                        resp['func'],
-                        resp['value']
+            for repl in resp:
+                if 'function_call' in repl:
+                    print(
+                        "call<{}>: {}".format(
+                            repl['function_call']['name'],
+                            repl['function_call']['arguments']
+                        )
                     )
-                )
-            elif resp['type'] == 'message':
-                print(
-                    "<<< {}".format(
-                        resp['value']
+                else:
+                    print(
+                        "<<< {}".format(
+                            repl['content']
+                        )
                     )
-                )
+
+            # if resp['type'] == 'function_call':
+            #     print(
+            #         "func<{}>: {}".format(
+            #             resp['func'],
+            #             resp['value']
+            #         )
+            #     )
+            # elif resp['type'] == 'message':
+            #     print(
+            #         "<<< {}".format(
+            #             resp['value']
+            #         )
+            #     )
 
         cmd = input(">>> ")
